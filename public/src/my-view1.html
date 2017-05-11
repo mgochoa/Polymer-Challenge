@@ -1,0 +1,117 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<script src="../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<link rel="import" href="../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-item/paper-item-body.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
+<link rel="import" href="../bower_components/iron-overlay-behavior/iron-overlay-behavior.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="my-view1">
+    <template>
+
+        <style include="shared-styles">
+            :host {
+                padding: 10px;
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+
+            iron-list {
+                flex: 1 1 auto;
+            }
+
+            paper-fab.blue {
+                --paper-fab-background: var(--paper-light-blue-500);
+                --paper-fab-keyboard-focus-background: var(--paper-light-blue-900);
+                position: absolute;
+                bottom: 20px;
+                right: 20px;
+            }
+            #modal{
+                z-index:999;
+            }
+        </style>
+        <firebase-query
+                id="query"
+                app-name="consultorio"
+                path="/doctors"
+                data="{{doctors}}">
+        </firebase-query>
+        <paper-fab icon="add" on-tap="toggleDialog" class="blue"></paper-fab>
+        <!--paper-dialog id="actions" role="dialog">
+            <h2>Agregar nuevo Doctor</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                aliquip ex ea commodo consequat. Duis aute
+                irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                est laborum.</p>
+            <div class="buttons">
+                <paper-button>More Info...</paper-button>
+                <paper-button dialog-dismiss>Decline</paper-button>
+                <paper-button dialog-confirm autofocus>Accept</paper-button>
+            </div>
+        </paper-dialog-->
+        <paper-dialog id="modal" modal>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <div class="buttons">
+                <paper-button dialog-confirm autofocus>Tap me to close</paper-button>
+            </div>
+        </paper-dialog>
+
+        <div class="card">
+            <h1>Doctores</h1>
+
+            <template is="dom-repeat" role="listbox" items="[[doctors]]">
+                <paper-item>
+                    <paper-item-body two-line>
+                        <h1>{{item.name}}</h1>
+                        <div secondary><strong>Valor: </strong>{{item.valor}}</div>
+                        <div secondary><strong>Horario: </strong>{{item.horario_inicio}} - {{item.horario_fin}}</div>
+                    </paper-item-body>
+                </paper-item>
+
+            </template>
+        </div>
+
+
+    </template>
+
+    <script>
+        Polymer({
+            is: 'my-view1',
+            properties: {
+                uid: String,
+                doctors: {
+                    type: Object,
+                    observer: 'dataChanged'
+                }
+            },
+
+            dataChanged: function (newData, oldData) {
+                // do something when the query returns values
+                console.log(newData, oldData);
+            },
+            toggleDialog: function() {
+                console.log("Nothing :)");
+            }
+
+        });
+    </script>
+</dom-module>
