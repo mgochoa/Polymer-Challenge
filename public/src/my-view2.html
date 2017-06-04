@@ -10,28 +10,80 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
 
 <dom-module id="my-view2">
-  <template>
-    <style include="shared-styles">
-      :host {
-        display: block;
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
 
-        padding: 10px;
-      }
-    </style>
+                padding: 10px;
+            }
 
-    <div class="card">
-      <div class="circle">2</div>
-      <h1>View Two</h1>
-      <p>Ea duis bonorum nec, falli paulo aliquid ei eum.</p>
-      <p>Id nam odio natum malorum, tibique copiosae expetenda mel ea.Detracto suavitate repudiandae no eum. Id adhuc minim soluta nam.Id nam odio natum malorum, tibique copiosae expetenda mel ea.</p>
-    </div>
-  </template>
+            iron-list {
+                flex: 1 1 auto;
+            }
 
-  <script>
-    Polymer({
-      is: 'my-view2',
-    });
-  </script>
+            paper-fab.blue {
+                --paper-fab-background: var(--paper-light-blue-500);
+                --paper-fab-keyboard-focus-background: var(--paper-light-blue-900);
+                position: absolute;
+                bottom: 20px;
+                right: 20px;
+            }
+        </style>
+        <app-location route="{{route}}"></app-location>
+        <app-route
+                route="{{route}}"
+                pattern="/:page"
+                data="{{routeData}}"
+                tail="{{subroute}}"></app-route>
+        <firebase-query
+                id="query"
+                app-name="consultorio"
+                path="/patients"
+                data="{{patients}}">
+        </firebase-query>
+        <paper-fab icon="add" on-tap="toggleDialog" class="blue"></paper-fab>
+        <div class="card">
+            <h1>Pacientes</h1>
+
+            <template is="dom-repeat" role="listbox" items="[[patients]]">
+                <paper-item>
+                    <paper-item-body two-line>
+                        <h1>{{item.name}} {{item.lastName}}</h1>
+                        <div secondary><strong>Telefono: </strong>{{item.phoneNumber}}</div>
+                        <div secondary><strong>Edad: </strong>{{item.age}}</div>
+                    </paper-item-body>
+                </paper-item>
+
+            </template>
+        </div>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'my-view2',
+            properties: {
+                uid: String,
+                patients: {
+                    type: Object,
+                    observer: 'dataChanged'
+                }
+            },
+
+            dataChanged: function (newData, oldData) {
+                // do something when the query returns values
+                console.log(newData);
+
+            },
+
+            toggleDialog: function () {
+                console.log("Nothing :)");
+                this.set('route.path', '/add-patient');
+            }
+        });
+    </script>
 </dom-module>

@@ -1,0 +1,162 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-styles/element-styles/paper-material-styles.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-database-script.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="my-add-patient">
+    <template>
+        <style>
+            :host {
+                display: block;
+
+                padding: 16px;
+            }
+
+            paper-card {
+                width: 100%;
+            }
+
+        </style>
+        <app-location route="{{route}}"></app-location>
+        <app-route
+                route="{{route}}"
+                pattern="/:page"
+                data="{{routeData}}"
+                tail="{{subroute}}"></app-route>
+
+        <paper-card heading="Nuevo paciente"
+                    image="http://www.translinkproject.com/wp-content/uploads/2015/04/Patient-ward-segment.jpg">
+            <div class="card-content">
+                <form is="iron-form" method="get" action="/" on-change="changeForm" id="eventsDemo">
+                    <paper-input label="Nombre" value="{{username}}" required auto-validate></paper-input>
+                    <paper-input label="Apellido" value="{{lastname}}" required auto-validate></paper-input>
+                    <paper-input label="Dirección" value="{{address}}" required auto-validate></paper-input>
+                    <paper-input label="Teléfono" value="{{phoneNumber}}" type="tel" required
+                                 auto-validate></paper-input>
+                    <paper-input label="Ocupación" value="{{job}}" required auto-validate></paper-input>
+                    <paper-input label="Fecha de Nacimiento" value="{{bornDate}}" type="date" required
+                                 auto-validate></paper-input>
+                    <paper-input label="Edad" value="{{age}}" required auto-validate></paper-input>
+                    <paper-dropdown-menu label="Sexo" vertical-align="bottom" horizontal-align="left">
+                        <paper-listbox slot="dropdown-content" attr-for-selected="item-name" selected="{{sex}}"
+                                       fallback-selection="Masculino" class="dropdown-content">
+                            <paper-item item-name="Masculino">Masculino</paper-item>
+                            <paper-item item-name="Femenino">Femenino</paper-item>
+                            <paper-item item-name="Transexual">Transexual</paper-item>
+                            <paper-item item-name="Transgenero">Transgenero</paper-item>
+                            <paper-item item-name="Homosexual">Homosexual</paper-item>
+                            <paper-item item-name="Dorito">Dorito</paper-item>
+                        </paper-listbox>
+                    </paper-dropdown-menu>
+
+                </form>
+
+            </div>
+            <div class="card-actions">
+                <paper-button raised on-click="delayedSubmit" disabled id="eventsDemoSubmit">
+                    <paper-spinner id="spinner" hidden></paper-spinner>
+                    Agregar
+                </paper-button>
+                <paper-button raised on-click="reset" id="reset">Reestablecer</paper-button>
+            </div>
+        </paper-card>
+
+
+    </template>
+    <script>
+        Polymer({
+            is: 'my-add-patient',
+            properties: {
+                username: {
+                    type: String,
+                    value: ""
+                },
+                lastname: {
+                    type: String,
+                    value: ""
+                },
+                address: {
+                    type: String,
+                    value: ""
+                },
+                phoneNumber: {
+                    type: Number,
+                    value: null
+                },
+                job: {
+                    type: String,
+                    value: ""
+                },
+                bornDate: {
+                    type: String,
+                    value: ""
+                },
+                age: {
+                    type: Number,
+                    value: ""
+                },
+                sex: {
+                    type: String,
+                    value: ""
+                }
+            },
+            ready: function () {
+                var parent = this;
+                this.$.eventsDemo.addEventListener('iron-form-submit', function (event) {
+                    parent.$.spinner.active = false;
+                    parent.$.spinner.hidden = true;
+                    parent.$.eventsDemoSubmit.disabled = false;
+                });
+
+            },
+            delayedSubmit: function (event) {
+                this.$.spinner.active = true;
+                this.$.spinner.hidden = false;
+                this.$.eventsDemoSubmit.disabled = true;
+                var parent = this;
+                // Simulate a slow server response.
+                setTimeout(function () {
+                    parent.$.spinner.active = false;
+                    var newPostKey = firebase.apps[0].database().ref().child('patients').push().key;
+                    var newPatient = {
+                        name: parent.username,
+                        lastname: parent.lastname,
+                        address: parent.address,
+                        phoneNumber: parent.phoneNumber,
+                        job: parent.job,
+                        bornDate: parent.bornDate,
+                        age: parent.age,
+                        sex: parent.sex
+                    };
+
+                    firebase.apps[0].database().ref('patients/' + newPostKey).set(newPatient)
+                        .then(function () {
+                            parent.$.spinner.hidden = true;
+                            parent.set('route.path', '/view2');
+
+                        }, function (err) {
+                            window.alert(err)
+                        });
+
+                }, 1000);
+            },
+            reset: function (event) {
+                this.$.eventsDemo.reset();
+            },
+            changeForm: function (event) {
+                this.$.eventsDemoSubmit.disabled = !this.$.eventsDemo.validate();
+            }
+        });
+    </script>
+</dom-module>

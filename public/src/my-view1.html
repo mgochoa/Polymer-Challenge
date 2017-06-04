@@ -16,6 +16,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-item/paper-item-body.html">
 <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-view1">
@@ -43,13 +45,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 z-index:999;
             }
         </style>
+
+        <app-location route="{{route}}"></app-location>
+        <app-route
+                route="{{route}}"
+                pattern="/:page"
+                data="{{routeData}}"
+                tail="{{subroute}}"></app-route>
         <firebase-query
                 id="query"
                 app-name="consultorio"
                 path="/doctors"
                 data="{{doctors}}">
         </firebase-query>
-        <paper-fab icon="add" on-tap="toggleDialog" class="blue"></paper-fab>
+        <paper-fab icon="add" on-tap="toggleDialog" class="blue" href="/add-doctor"></paper-fab>
         <!--paper-dialog id="actions" role="dialog">
             <h2>Agregar nuevo Doctor</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
@@ -77,9 +86,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <template is="dom-repeat" role="listbox" items="[[doctors]]">
                 <paper-item>
                     <paper-item-body two-line>
-                        <h1>{{item.name}}</h1>
-                        <div secondary><strong>Valor: </strong>{{item.valor}}</div>
-                        <div secondary><strong>Horario: </strong>{{item.horario_inicio}} - {{item.horario_fin}}</div>
+                        <h1>{{item.name}} {{item.lastName}}</h1>
+                        <div secondary><strong>Valor: </strong>{{item.valuePerHour}}</div>
+                        <div secondary><strong>Horario: </strong>{{item.hourBegins}} - {{item.hourEnds}}</div>
                     </paper-item-body>
                 </paper-item>
 
@@ -106,6 +115,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             },
             toggleDialog: function() {
                 console.log("Nothing :)");
+                this.set('route.path', '/add-doctor');
             }
 
         });

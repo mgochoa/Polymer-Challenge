@@ -1,0 +1,45 @@
+[debug] ----------------------------------------------------------------------
+[debug] Command:      /usr/local/bin/node /usr/local/bin/firebase deploy --only hosting
+[debug] CLI Version:  3.7.0
+[debug] Platform:     darwin
+[debug] Node Version: v7.4.0
+[debug] Time:         Sun Jun 04 2017 10:56:05 GMT-0500 (COT)
+[debug] ----------------------------------------------------------------------
+[debug] 
+[debug] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token { refresh_token: '1/CweJ4yGN-UMYAbJhhpxZgvK6mqaZWthGRTlhJ86hnifPaX2JTt1NsAIIW6SxL_CY',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Sun Jun 04 2017 10:56:05 GMT-0500 (COT)
+[debug] <<< HTTP RESPONSE 200
+[debug] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/ing-web-uno  
+ Sun Jun 04 2017 10:56:06 GMT-0500 (COT)
+[debug] <<< HTTP RESPONSE 200
+[debug] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/ing-web-uno/tokens  
+ Sun Jun 04 2017 10:56:07 GMT-0500 (COT)
+[debug] <<< HTTP RESPONSE 200
+[debug] ----------------------------------------------------------------------
+[debug] Command:      /usr/local/bin/node /usr/local/bin/firebase deploy --only hosting
+[debug] CLI Version:  3.7.0
+[debug] Platform:     darwin
+[debug] Node Version: v7.4.0
+[debug] Time:         Sun Jun 04 2017 10:56:31 GMT-0500 (COT)
+[debug] ----------------------------------------------------------------------
+[debug] 
+[debug] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/ing-web-uno  
+ Sun Jun 04 2017 10:56:31 GMT-0500 (COT)
+[debug] <<< HTTP RESPONSE 200
+[debug] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/ing-web-uno/tokens  
+ Sun Jun 04 2017 10:56:32 GMT-0500 (COT)
+[debug] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'ing-web-uno'...
+[info] 
+[info] i  deploying hosting
+[info] i  hosting: preparing public directory for upload...
+[debug] >>> HTTP REQUEST PUT https://deploy.firebase.com/v1/hosting/ing-web-uno/uploads/-KlnoccERAwVGxd0Q4gA?fileCount=1447&message=  
+ Sun Jun 04 2017 10:56:40 GMT-0500 (COT)
