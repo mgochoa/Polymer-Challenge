@@ -27,7 +27,8 @@
     "paper-styles": "PolymerElements/paper-styles#^2.0.0",
     "paper-card": "PolymerElements/paper-card#^2.0.0",
     "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#^2.0.0",
-    "paper-listbox": "PolymerElements/paper-listbox#^2.0.0"
+    "paper-listbox": "PolymerElements/paper-listbox#^2.0.0",
+    "app-storage": "PolymerElements/app-storage#^2.0.1"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"

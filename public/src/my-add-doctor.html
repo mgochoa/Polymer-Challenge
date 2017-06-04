@@ -188,6 +188,7 @@
                     firebase.apps[0].database().ref('doctors/' + newPostKey).set(newDoctor)
                         .then(function () {
                             parent.$.spinner.hidden = true;
+                            parent.$.eventsDemo.reset();
                             parent.set('route.path', '/view1');
                         }, function (err) {
                             window.alert(err)
